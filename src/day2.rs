@@ -25,22 +25,22 @@ pub fn input_generator(input: &str) -> Vec<Move> {
 
 #[aoc(day2, part1)]
 pub fn solve_part1(input: &[Move]) -> i32 {
-    let position = input
+    let (h, v) = input
         .iter()
         .fold((0, 0), |(h, v), mve| match mve {
             Move::Horizontal(dist) => (h + dist, v),
             Move::Vertical(dist) => (h, v + dist),
         });
-    position.0 * position.1
+    h * v
 }
 
 #[aoc(day2, part2)]
 pub fn solve_part2(input: &[Move]) -> i32 {
-    let position = input
+    let (h, v, _) = input
         .iter()
         .fold((0, 0, 0), |(h, v, aim), mve| match mve {
             Move::Horizontal(dist) => (h + dist, v + dist * aim, aim),
             Move::Vertical(dist) => (h, v, aim + dist),
         });
-    position.0 * position.1
+    h * v
 }
