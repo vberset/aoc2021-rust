@@ -24,17 +24,17 @@ pub fn solve_part1(input: &[Vec<usize>]) -> usize {
 
 #[aoc(day3, part2)]
 pub fn solve_part2(input: &[Vec<usize>]) -> usize {
-    let oxygen = search(input, |ones, zeros| ones >= zeros);
-    let co2 = search(input, |ones, zeros| zeros > ones);
+    let oxygen = search(input, true);
+    let co2 = search(input, false);
     oxygen * co2
 }
 
-fn search(lines: &[Vec<usize>], cmp: fn(ones: usize, zeros: usize) -> bool) -> usize {
+fn search(lines: &[Vec<usize>], majority: bool) -> usize {
     let mut lines = lines.iter().collect::<Vec<_>>();
 
     for i in 0.. {
         let ones = lines.iter().fold(0, |count, line| count + line[i]);
-        let criteria = cmp(ones, lines.len() - ones) as usize;
+        let criteria = ((ones >= lines.len() - ones) ^ !majority) as usize;
         lines = lines.into_iter().filter(|line| line[i] == criteria).collect();
         if lines.len() == 1 {
             break;
